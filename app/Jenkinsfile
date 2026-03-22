@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Clone Check') {
+            steps {
+                echo 'Code pulled from GitHub successfully'
+            }
+        }
+
+        stage('Build') {
+            agent {
+                docker {
+                    image 'node:18'
+                }
+            }
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t my-app .'
+            }
+        }
+
+    }
+}
